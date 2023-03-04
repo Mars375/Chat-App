@@ -6,11 +6,15 @@ import { auth, storage, db } from "../firebase";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { doc, setDoc } from "firebase/firestore";
 
+// Import React Router
+import { useNavigate } from "react-router-dom";
+
 // Import Icons
 import addAvatar from "../Assets/addAvatar.png";
 
 const Register = () => {
 	const [err, setErr] = useState(false);
+	const navigate = useNavigate();
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
@@ -44,6 +48,9 @@ const Register = () => {
 							email,
 							photoURL: downloadURL,
 						});
+
+						await setDoc(doc(db, "userChats", res.user.uid), {});
+						navigate("/");
 					});
 				}
 			);
