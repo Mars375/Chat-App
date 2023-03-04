@@ -7,7 +7,7 @@ import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { doc, setDoc } from "firebase/firestore";
 
 // Import React Router
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 // Import Icons
 import addAvatar from "../Assets/addAvatar.png";
@@ -77,7 +77,9 @@ const Register = () => {
 					<button>Signup</button>
 					{err && <span className="error">Something went wrong</span>}
 				</form>
-				<p>You do have an account? Login</p>
+				<p>
+					You do have an account? <Link to="/login">Login</Link>
+				</p>
 			</div>
 		</div>
 	);
