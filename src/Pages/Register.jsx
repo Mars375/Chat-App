@@ -1,7 +1,7 @@
 import React from 'react'
 
 // Import Icons
-import addAvatar from "../assets/addAvatar.png"
+import addAvatar from "../Assets/addAvatar.png"
 
 const Register = () => {
   return (
