@@ -28,23 +28,20 @@ const Register = () => {
 			//Create user
 			const res = await createUserWithEmailAndPassword(auth, email, password);
 
-			//Create a uniquer image name
+			//Create a unique name for the file
 			const date = new Date().getTime();
 			const storageRef = ref(storage, `${displayName + date}`);
 
-			const uploadTask = uploadBytesResumable(storageRef, file);
-
-			uploadTask.on(
-				(error) => {
-					console.log(error);
-					setErr(true);
-				},
-				() => {
-					getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
+			//Upload the file
+			await uploadBytesResumable(storageRef, file).then(() => {
+				getDownloadURL(storageRef).then(async (downloadURL) => {
+					try {
+						//Update profile
 						await updateProfile(res.user, {
 							displayName,
 							photoURL: downloadURL,
 						});
+						//create user on firestore
 						await setDoc(doc(db, "users", res.user.uid), {
 							uid: res.user.uid,
 							displayName,
@@ -52,11 +49,15 @@ const Register = () => {
 							photoURL: downloadURL,
 						});
 
+						//creapte empty user chats on firestore
 						await setDoc(doc(db, "userChats", res.user.uid), {});
 						navigate("/");
-					});
-				}
-			);
+					} catch (error) {
+						console.log(error);
+						setErr(true);
+					}
+				});
+			});
 		} catch (error) {
 			console.log(error);
 			setErr(true);

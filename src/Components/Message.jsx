@@ -1,18 +1,41 @@
-import React from 'react'
+import React, { useContext, useEffect, useRef } from "react";
 
-const Message = () => {
-  return (
-    <div className='message owner'>
-      <div className="messageInfo">
-        <img src="https://www.w3schools.com/howto/img_avatar.png" alt="" />
-        <span>just now</span>
-      </div>
-      <div className="messageText">
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.</p>
-        <img src="" alt="" />
-      </div>
-    </div>
-  )
-}
+// import Context
+import { AuthContext } from "../Context/AuthContext";
+import { ChatContext } from "../Context/ChatContext";
 
-export default Message
+const Message = ({ message }) => {
+	const { currentUser } = useContext(AuthContext);
+	const { data } = useContext(ChatContext);
+
+	const ref = useRef();
+
+	useEffect(() => {
+		ref.current?.scrollIntoView({ behavior: "smooth" });
+	}, [message]);
+
+	return (
+		<div
+			ref={ref}
+			className={`message ${message.senderId === currentUser.uid && "owner"}`}
+		>
+			<div className="messageInfo">
+				<img
+					src={
+						message.senderId === currentUser.uid
+							? currentUser.photoURL
+							: data.user.photoURL
+					}
+					alt=""
+				/>
+				<span>just now</span>
+			</div>
+			<div className="messageText">
+				<p>{message.text}</p>
+				{message.file && <img src={message.file} alt="" />}
+			</div>
+		</div>
+	);
+};
+
+export default Message;

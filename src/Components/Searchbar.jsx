@@ -60,22 +60,30 @@ const Searchbar = () => {
 				});
 
 				// create user chats
-				await updateDoc(doc(db, "userChats", currentUser.uid), {
-					[combinedID + ".userInfo"]: {
-						uid: user.uid,
-						displayName: user.displayName,
-						photoURL: user.photoURL,
-					},
-					[combinedID + ".date"]: serverTimestamp(),
-				});
-				await updateDoc(doc(db, "userChats", user.uid), {
-					[combinedID + ".userInfo"]: {
-						uid: currentUser.uid,
-						displayName: currentUser.displayName,
-						photoURL: currentUser.photoURL,
-					},
-					[combinedID + ".date"]: serverTimestamp(),
-				});
+				try {
+					await updateDoc(doc(db, "userChats", currentUser.uid), {
+						[combinedID + ".userInfo"]: {
+							uid: user.uid,
+							displayName: user.displayName,
+							photoURL: user.photoURL,
+						},
+						[combinedID + ".date"]: serverTimestamp(),
+					});
+				} catch (error) {
+					console.log(error);
+				}
+				try {
+					await updateDoc(doc(db, "userChats", user.uid), {
+						[combinedID + ".userInfo"]: {
+							uid: currentUser.uid,
+							displayName: currentUser.displayName,
+							photoURL: currentUser.photoURL,
+						},
+						[combinedID + ".date"]: serverTimestamp(),
+					});
+				} catch (error) {
+					console.log(error);
+				}
 			}
 		} catch (error) {}
 
