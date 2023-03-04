@@ -6,7 +6,7 @@ import Login from './Pages/Login'
 import Home from './Pages/Home'
 
 // import Styles
-import './style.scss'
+import './Styles/style.scss'
 
 const App = () => {
   return (

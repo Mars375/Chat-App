@@ -1,8 +1,13 @@
 import React from 'react'
 
+// Import components
+import Message from './Message'
+
 const MessageList = () => {
   return (
-    <div>MessageList</div>
+    <div className='messageList'>
+      <Message />
+    </div>
   )
 }
 
