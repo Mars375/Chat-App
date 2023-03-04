@@ -14,9 +14,11 @@ import addAvatar from "../Assets/addAvatar.png";
 
 const Register = () => {
 	const [err, setErr] = useState(false);
+	const [loading, setLoading] = useState(false);
 	const navigate = useNavigate();
 
 	const handleSubmit = async (e) => {
+		setLoading(true);
 		e.preventDefault();
 
 		const displayName = e.target[0].value;
@@ -55,12 +57,14 @@ const Register = () => {
 					} catch (error) {
 						console.log(error);
 						setErr(true);
+						setLoading(false);
 					}
 				});
 			});
 		} catch (error) {
 			console.log(error);
 			setErr(true);
+			setLoading(false);
 		}
 	};
 
@@ -78,7 +82,8 @@ const Register = () => {
 						<img src={addAvatar} alt="Add Avatar" />
 						<span>Add an avatar</span>
 					</label>
-					<button>Signup</button>
+					<button disabled={loading}>Signup</button>
+					{loading && "Uploading and compressing the image please wait..."}
 					{err && <span className="error">Something went wrong</span>}
 				</form>
 				<p>
