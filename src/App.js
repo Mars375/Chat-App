@@ -11,7 +11,7 @@ import './Styles/style.scss'
 const App = () => {
   return (
     <div>
-      <Home />
+      <Register />
     </div>
   )
 }
